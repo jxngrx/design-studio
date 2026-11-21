@@ -1,0 +1,60 @@
+{
+ "summit-climbing": {
+  "id": "p1795263415238",
+  "name": "Summit Climbing",
+  "status": "ready",
+  "description": "A marketing website for a small climbing gym: classes, pricing, membership signup, and day-pass booking.",
+  "platform": "web",
+  "mode": "design",
+  "model": "",
+  "skills": [],
+  "style": "",
+  "web": true,
+  "sites": [],
+  "refs": [],
+  "created": 1795263415238,
+  "failedItems": [],
+  "summary": "A fluid marketing site for a small climbing gym covering classes, pricing, memberships and day-pass booking.",
+  "plan": {
+   "mood": "Chalky, confident, athletic, warm",
+   "palette": {
+    "bg": "#F6F2EA",
+    "surface": "#FFFFFF",
+    "ink": "#1D1B18",
+    "muted": "#6B655C",
+    "line": "#E3DCCF",
+    "brand": "#D9481C",
+    "accent": "#2F5D50"
+   },
+   "font": "'Space Grotesk', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+   "radius": "14"
+  },
+  "css": "summit-climbing.css",
+  "items": [
+   {
+    "name": "Home",
+    "group": "Discover",
+    "description": "Fluid responsive layout with collapsing nav (hamburger below 768px). Hero with headline 'Climb something new today', subcopy about a 40-route bouldering and rope gym, and two buttons: 'Book a day pass' and 'See memberships'. Today's hours strip (Mon-Fri 6am-10pm, Sat-Sun 8am-8pm, with an 'Open now' badge). 'Why us' grid of 4 cards: route resets every week, beginner-friendly staff, 15m lead wall, community nights. Testimonial quote, and a closing call-to-action band with a day-pass button. Footer with address, hours and links.",
+    "id": "65-home"
+   },
+   {
+    "name": "The Gym",
+    "group": "Discover",
+    "description": "Page header with intro. Walls section as a card grid: Boulder Cave (22 problems, V0-V8), Lead Wall (15m, 18 routes, 5.6-5.13), Top-Rope Tower, Kids Zone. Facilities list with icons: training board, hangboard area, yoga loft, showers and lockers, cafe, gear rental. Coaches row of 4 profile cards with name, specialty and years of experience (e.g. Maya Ortiz, head coach, 12 yrs). Stacks to one column on phones.",
+    "id": "66-the-gym"
+   },
+   {
+    "name": "Classes",
+    "group": "Learn",
+    "description": "Filter bar with level chips (All, Beginner, Intermediate, Advanced) and price chips (Under $20, $20-$35, $35+) that wrap on small screens. Responsive grid of class cards, each with title, level tag, duration, schedule, spots left and price: Intro to Bouldering $25, Belay Certification $35, Technique Tuesdays $18, Lead Climbing Clinic $45, Kids Climb Club $22, Yoga for Climbers $15. Each has a 'Book' button. Empty state message when no class matches.",
+    "id": "67-classes"
+   },
+   {
+    "name": "Pricing",
+    "group": "Join",
+    "description": "Toggle for monthly or annual billing. Plan comparison of Day Pass $22, 10-Visit Punch Card $190, Monthly Membership $79 (highlighted as most popular), and Annual $790, each with a feature checklist (gear rental, class discounts, guest passes, yoga access). Below, a feature comparison table that scrolls horizontally on phones, a day-pass booking form with date picker, climber count and 'Book day pass' button, and a short FAQ accordion.",
+    "id": "68-pricing"
+   }
+  ]
+ }
+}

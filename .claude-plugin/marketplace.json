@@ -1,0 +1,11 @@
+{
+  "name": "design-studio",
+  "owner": { "name": "jxngrx" },
+  "plugins": [
+    {
+      "name": "design-studio",
+      "source": "./",
+      "description": "AI design studio skill. On first use it offers to install the local app to ~/.design-studio."
+    }
+  ]
+}

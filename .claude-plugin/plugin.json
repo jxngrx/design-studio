@@ -1,0 +1,9 @@
+{
+  "name": "design-studio",
+  "description": "AI design studio: describe an app or site, answer a few questions, and get a designed, responsive, clickable screen set on localhost.",
+  "version": "1.0.0",
+  "author": { "name": "jxngrx" },
+  "license": "MIT",
+  "homepage": "https://github.com/jxngrx/design-studio",
+  "keywords": ["design", "ui", "mockup", "prototype", "frontend"]
+}

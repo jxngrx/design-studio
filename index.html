@@ -1,0 +1,124 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Design Studio</title>
+<style>
+:root{--bg:#0f0e0b;--panel:#1b1914;--line:#2a2720;--fg:#ece8df;--mute:#8d8778;--brand:#e8743b}
+*{box-sizing:border-box;margin:0}html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font:13px -apple-system,Inter,sans-serif}
+#board{position:absolute;inset:0;cursor:grab;background-image:radial-gradient(#ffffff14 1px,transparent 1px);background-size:24px 24px}#board.drag{cursor:grabbing}
+#world{position:absolute;left:0;top:0;transform-origin:0 0;padding:80px;display:flex;flex-direction:column;gap:90px;width:max-content}
+.grp>h3{font-size:22px;font-weight:700;margin-bottom:22px;color:var(--mute)}.row{display:flex;gap:56px;align-items:flex-start}
+.cell>p{margin-bottom:12px;color:var(--mute);font-weight:600;font-size:14px;white-space:nowrap}.cell.sel>p{color:var(--brand)}
+.dev{position:relative;background:#0b0b0d;box-shadow:0 0 0 2px #3b3d44,0 30px 60px #0008;cursor:pointer}.cell.sel .dev{box-shadow:0 0 0 4px var(--brand),0 30px 60px #0008}
+.scr{position:absolute;overflow:hidden;background:#fff}.scr iframe{width:100%;height:100%;border:0;display:block}
+.hit{position:absolute;inset:0;z-index:3}
+.sb{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:#111;z-index:2;pointer-events:none}
+.sb i{font-style:normal;letter-spacing:2px}
+.hole{position:absolute;background:#000;z-index:4;pointer-events:none}.home{position:absolute;z-index:4;pointer-events:none;background:#111;border-radius:3px;opacity:.85}
+#bar{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);width:min(720px,calc(100vw - 32px));background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 20px 50px #000a;z-index:10}
+#bar .r{display:flex;gap:8px;align-items:center}#sel{font-size:12px;color:var(--mute);padding:0 4px 8px}#sel b{color:var(--brand)}
+#msg{flex:1;background:#0f0e0b;border:1px solid var(--line);color:var(--fg);border-radius:12px;padding:11px 14px;font:inherit;outline:none}#msg:focus{border-color:var(--brand)}
+#go{background:var(--brand);color:#fff;border:0;border-radius:12px;padding:11px 18px;font:600 13px inherit;cursor:pointer}#go:disabled,#msg:disabled{opacity:.5;cursor:wait}
+#nn,#ng{flex:1;background:#0f0e0b;border:1px solid var(--line);color:var(--fg);border-radius:12px;padding:9px 14px;font:inherit;outline:none}#nn:focus,#ng:focus{border-color:var(--brand)}#nm{background:#0f0e0b;color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:600 13px inherit;cursor:pointer;white-space:nowrap}#nm.on{background:var(--brand);border-color:var(--brand)}
+#st{font-size:12px;padding:8px 4px 0;color:var(--mute);min-height:20px}#st.err{color:#ff7b7b}#st.ok{color:#5fd68a}
+#dev{position:fixed;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px;z-index:10}
+#dev button{background:none;border:0;color:var(--mute);padding:8px 14px;border-radius:10px;font:600 12px inherit;cursor:pointer}#dev button.on{background:var(--brand);color:#fff}
+#zoom{position:fixed;top:20px;right:20px;color:var(--mute);font-size:12px;z-index:10}
+
+:root{--sw:232px}body.sc{--sw:60px}
+#board{left:var(--sw);transition:left .18s}
+#side{position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:var(--panel);border-right:1px solid var(--line);z-index:11;display:flex;flex-direction:column;padding:14px 10px;gap:4px;transition:width .18s;overflow:hidden}
+#side .h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 14px;font-weight:700;color:var(--mute);font-size:11px;letter-spacing:.14em;text-transform:uppercase;min-height:36px}
+#tg{background:none;border:0;color:var(--mute);font-size:16px;cursor:pointer;padding:4px 8px;border-radius:8px}#tg:hover{background:#ffffff12;color:var(--fg)}
+.pj{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;color:var(--mute);font:600 13px -apple-system,Inter,sans-serif;background:none;border:0;cursor:pointer;text-align:left;white-space:nowrap}.pj:hover{background:#ffffff0a}.pj.on{background:#ffffff14;color:var(--fg)}
+.pj i{font-style:normal;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:12px;color:#fff;flex:none}.pj small{margin-left:auto;color:var(--mute);font-weight:500}
+.sc #side .lbl{display:none}.sc #side .h{justify-content:center}
+#bar,#dev{left:calc(50% + var(--sw)/2)!important}
+</style><link rel="stylesheet" href="ui/ui.css"></head><body>
+<div id="side"></div><div id="dev"></div><div id="zoom"></div><div id="tools"></div><div id="modes"></div><div id="jobbar"></div>
+<div id="drawer"></div><div id="home"></div><div id="settings"></div><div id="player"></div><div id="board"><div id="world"></div></div>
+<div id="bar"><div id="sel">Click a screen to select it</div><div id="nw" class="r" style="display:none;padding-bottom:8px"><input id="nn" placeholder="Screen name, e.g. Welcome back"><input id="ng" list="gl" placeholder="Group"><datalist id="gl"></datalist></div><div class="r"><button id="nm" title="Create a new screen instead of editing">+ New</button><input id="msg" placeholder="Tell Claude what to change on this screen…" autocomplete="off"><button id="go">Send</button></div><div id="st"></div></div>
+<script>
+const DEVICES=[
+ {id:'iphone15',name:'iPhone 15',w:393,h:852,r:56,sat:54,sab:34,os:'ios',cut:'island'},
+ {id:'iphone15max',name:'iPhone 15 Pro Max',w:430,h:932,r:60,sat:54,sab:34,os:'ios',cut:'island'},
+ {id:'iphonese',name:'iPhone SE',w:375,h:667,r:36,sat:20,sab:0,os:'ios',cut:'button'},
+ {id:'pixel8',name:'Pixel 8',w:412,h:915,r:40,sat:40,sab:24,os:'android',cut:'hole'},
+ {id:'galaxys24',name:'Galaxy S24',w:360,h:780,r:34,sat:36,sab:20,os:'android',cut:'hole'}];
+const DESK={browser:{id:'browser',name:'Desktop browser',w:1280,h:800,r:12,sat:0,sab:0,os:'desktop',cut:'none'},popup:{id:'popup',name:'Extension popup',w:360,h:620,r:16,sat:0,sab:0,os:'desktop',cut:'none'},
+ desktop:{id:'desktop',name:'Desktop 1440',w:1440,h:900,r:12,sat:0,sab:0,os:'desktop',cut:'none'},
+ tablet:{id:'tablet',name:'Tablet 820',w:820,h:1180,r:26,sat:0,sab:0,os:'desktop',cut:'none'},
+ mobile:{id:'mobile',name:'Mobile 390',w:390,h:844,r:36,sat:0,sab:0,os:'ios',cut:'none'}};
+const $=s=>document.querySelector(s);const world=$('#world'),board=$('#board');
+let proj='',dev=DEVICES.find(d=>d.id===localStorage.dev)||DEVICES[0],screens=[],sel=null,busy=false,z=.5,px=40,py=40;
+const apply=()=>{world.style.transform=`translate(${px}px,${py}px) scale(${z})`;$('#zoom').textContent=Math.round(z*100)+'%'};
+function style(f,s,dev){ // push device metrics into a loaded screen
+  try{const d=f.contentDocument.documentElement;d.style.setProperty('--sat',dev.sat+'px');d.style.setProperty('--sab',dev.sab+'px');d.className=dev.os}catch(e){}}
+function frame(s){
+  const D=s.device?(vpFor(s)||DESK[s.device]):dev;
+  const B=D.cut==='button'?{t:64,b:64,s:14}:{t:12,b:12,s:12};
+  const W=D.w+B.s*2,H=D.h+B.t+B.b,sr=D.cut==='button'?4:D.r-10;
+  const el=document.createElement('div');el.className='cell';el.dataset.id=s.id;
+  el.innerHTML=`<p>${s.name}</p><div class="dev" style="width:${W}px;height:${H}px;border-radius:${D.r+4}px"><div class="scr" style="left:${B.s}px;top:${B.t}px;width:${D.w}px;height:${D.h}px;border-radius:${sr}px"><iframe src="screens/${s.id}.html?t=${s.v||0}" loading="lazy"></iframe>
+  <div class="sb" style="display:${D.sat?'flex':'none'};height:${D.sat}px;padding:0 ${D.os==='ios'?(D.cut==='island'?34:20):22}px;${D.os==='ios'?'align-items:flex-start;padding-top:'+(D.cut==='island'?18:4)+'px':'align-items:center'}"><span>9:41</span><i>${D.os==='ios'?'▂▄▆ ◔ ▭':'◔ ▂▄▆ ▭'}</i></div>
+  <div class="hit"></div></div></div>`;
+  const dv=el.querySelector('.dev'),sc=el.querySelector('.scr');
+  const add=(cls,css)=>{const x=document.createElement('div');x.className=cls;x.style.cssText=css;sc.appendChild(x)};
+  if(D.cut==='island')add('hole',`left:50%;top:11px;width:122px;height:35px;border-radius:20px;transform:translateX(-50%)`);
+  if(D.cut==='hole')add('hole',`left:50%;top:${D.sat/2-9}px;width:18px;height:18px;border-radius:50%;transform:translateX(-50%)`);
+  if(D.cut==='button'){const b=document.createElement('div');b.style.cssText=`position:absolute;left:50%;bottom:12px;width:40px;height:40px;border-radius:50%;border:2px solid #3b3d44;transform:translateX(-50%)`;dv.appendChild(b);const sp=document.createElement('div');sp.style.cssText='position:absolute;left:50%;top:26px;width:60px;height:6px;border-radius:3px;background:#2a2b30;transform:translateX(-50%)';dv.appendChild(sp)}
+  if(D.sab&&D.cut!=='button')add('home',D.os==='ios'?`left:50%;bottom:8px;width:134px;height:5px;transform:translateX(-50%)`:`left:50%;bottom:7px;width:110px;height:4px;transform:translateX(-50%)`);
+  const f=el.querySelector('iframe');f.onload=()=>style(f,s,D);
+  el.querySelector('.hit').onclick=e=>{e.stopPropagation();select(s.id)};
+  protoDecorate(el,s,D);
+  return el}
+function build(){
+  world.innerHTML='';const groups={};screens.filter(s=>s.project===proj).forEach(s=>(groups[s.group]??=[]).push(s));
+  $('#dev').style.display=screens.filter(s=>s.project===proj).every(s=>s.device)?'none':'';
+  for(const [g,list] of Object.entries(groups)){const d=document.createElement('div');d.className='grp';d.innerHTML=`<h3>${g}</h3><div class="row"></div>`;list.forEach(s=>d.lastChild.appendChild(frame(s)));world.appendChild(d)}
+  if(sel)mark();renderDevBar()}
+const mark=()=>{document.querySelectorAll('.cell').forEach(c=>c.classList.toggle('sel',c.dataset.id===sel));const s=screens.find(x=>x.id===sel);$('#sel').innerHTML=s?`Selected: <b>${s.name}</b> · ${(s.device?(vpFor(s)||DESK[s.device]):dev).name}`:'Click a screen to select it'};
+const select=id=>{if(isNew)$('#nm').click();sel=id;mark();$('#msg').focus();typeof onSelect==='function'&&onSelect()};
+board.onclick=()=>{sel=null;mark()};
+// pan / zoom
+let drag=null;board.onmousedown=e=>{drag={x:e.clientX-px,y:e.clientY-py,m:0};board.classList.add('drag')};
+addEventListener('mousemove',e=>{if(!drag)return;px=e.clientX-drag.x;py=e.clientY-drag.y;drag.m=1;apply()});
+addEventListener('mouseup',()=>{drag=null;board.classList.remove('drag')});
+board.addEventListener('wheel',e=>{e.preventDefault();if(e.ctrlKey||e.metaKey){const n=Math.min(2,Math.max(.1,z*Math.exp(-e.deltaY*.01)));const cx=e.clientX-board.offsetLeft;px=cx-(cx-px)*n/z;py=e.clientY-(e.clientY-py)*n/z;z=n}else{px-=e.deltaX;py-=e.deltaY}apply()},{passive:false});
+// device switch
+$('#dev').innerHTML=DEVICES.map(d=>`<button data-id="${d.id}">${d.name}</button>`).join('');
+const devMark=()=>document.querySelectorAll('#dev button').forEach(b=>b.classList.toggle('on',b.dataset.id===dev.id));
+$('#dev').onclick=e=>{const d=DEVICES.find(x=>x.id===e.target.dataset.id);if(!d)return;dev=d;try{localStorage.dev=d.id}catch(_){}devMark();build()};
+// send to claude
+let isNew=false;
+$('#nm').onclick=e=>{e.stopPropagation();isNew=!isNew;$('#nm').classList.toggle('on',isNew);$('#nw').style.display=isNew?'flex':'none';
+  $('#msg').placeholder=isNew?'Describe what the new screen should show…':'Tell Claude what to change on this screen…';
+  $('#gl').innerHTML=[...new Set(screens.filter(s=>s.project===proj).map(s=>s.group))].map(g=>`<option value="${g}">`).join('');
+  if(isNew){sel=null;mark();$('#sel').innerHTML=`New screen in <b>${proj}</b>`;$('#nn').focus()}else mark()};
+async function createScreen(){
+  const name=$('#nn').value.trim(),group=$('#ng').value.trim(),message=$('#msg').value.trim();if(busy)return;
+  if(!name||!group||!message)return status('Fill name, group and description','err');
+  busy=true;$('#go').disabled=$('#msg').disabled=true;status('Claude is designing '+name+'…');
+  try{const r=await fetch('/api/new',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({project:proj,group,name,message})});const j=await r.json();
+    if(!r.ok)throw new Error(j.error||r.status);screens=await (await fetch('screens.json')).json();build();side();sel=j.screen.id;mark();
+    const c=document.querySelector(`.cell[data-id="${sel}"]`),a=c.getBoundingClientRect(),w=world.getBoundingClientRect();px=40-(a.left-w.left);py=80-(a.top-w.top);apply();
+    $('#msg').value=$('#nn').value='';status('Created. '+(j.summary||''),'ok')}
+  catch(e){status(e.message,'err')}
+  busy=false;$('#go').disabled=$('#msg').disabled=false}
+async function send(){
+  if(isNew)return createScreen();
+  const s=screens.find(x=>x.id===sel),message=$('#msg').value.trim();if(busy)return;
+  if(!s)return status('Select a screen first','err');if(!message)return;
+  busy=true;$('#go').disabled=$('#msg').disabled=true;status('Claude is editing '+s.name+'…');
+  try{const r=await fetch('/api/fix',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({screen:s.id,message,device:(s.device?(vpFor(s)||DESK[s.device]):dev).name})});const j=await r.json();
+    if(!r.ok)throw new Error(j.error||r.status);s.v=Date.now();document.querySelector(`.cell[data-id="${s.id}"] iframe`).src=`screens/${s.id}.html?t=${s.v}`;$('#msg').value='';status('Done. '+(j.summary||''),'ok')}
+  catch(e){status(e.message,'err')}
+  busy=false;$('#go').disabled=$('#msg').disabled=false;$('#msg').focus()}
+const status=(t,c='')=>{$('#st').textContent=t;$('#st').className=c};
+$('#go').onclick=send;$('#msg').onkeydown=e=>{if(e.key==='Enter')send()};$('#bar').onclick=e=>e.stopPropagation();$('#bar').onmousedown=e=>e.stopPropagation();$('#dev').onmousedown=e=>e.stopPropagation();
+// project sidebar (collapsible)
+const hue=p=>[...p].reduce((a,c)=>a+c.charCodeAt(0)*37,0)%360;
+function side(){sideRender()}
+$('#side').onmousedown=e=>e.stopPropagation();
+Promise.all([fetch('screens.json').then(r=>r.json()),new Promise(r=>document.readyState==='complete'?r():addEventListener('load',r))]).then(([j])=>{screens=j;pre();side();devMark();build();apply();boot()});
+
+</script>
+<script src="ui/core.js"></script><script src="ui/mcp.js"></script><script src="ui/sidebar.js"></script><script src="ui/new.js"></script><script src="ui/project.js"></script><script src="ui/viewport.js"></script><script src="ui/drawer.js"></script><script src="ui/proto.js"></script><script src="ui/settings.js"></script>
+</body></html>

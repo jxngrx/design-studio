@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Classes · Summit Climbing</title>
+<link rel="stylesheet" href="summit-climbing.css">
+<style>
+.site-head{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.site-head .container{display:flex;align-items:center;gap:var(--s5);min-height:var(--top-h)}
+.logo{font-weight:700;font-size:1.25rem;letter-spacing:-.03em;color:var(--brand);text-decoration:none;display:flex;align-items:center;gap:var(--s2)}
+.nav{display:flex;align-items:center;gap:var(--s1);margin-left:auto}
+.nav a{padding:.5rem .9rem;border-radius:var(--radius-pill);color:var(--muted);font-weight:500;text-decoration:none;min-height:2.5rem;display:inline-flex;align-items:center}
+.nav a:hover{color:var(--ink);background:var(--surface)}
+.nav a[aria-current=page]{background:var(--brand-soft);color:var(--brand)}
+.hero{padding-block:var(--s7) var(--s5)}
+.hero p{margin-top:var(--s3);font-size:1.1rem;color:var(--muted)}
+.filters{display:flex;flex-direction:column;gap:var(--s3);padding:var(--s4) 0;border-block:1px solid var(--line);margin-block:var(--s5)}
+.fgroup{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap}
+.fgroup>span{min-width:4.5rem;font-size:.85rem;font-weight:600;color:var(--muted)}
+.count{margin-bottom:var(--s4)}
+.cls{display:flex;flex-direction:column;gap:var(--s3)}
+.cls .top{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s3)}
+.cls .price{font-size:1.5rem;font-weight:700;letter-spacing:-.03em}
+.cls dl{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);font-size:.9rem}
+.cls dt{color:var(--muted)}
+.cls .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:var(--s3);padding-top:var(--s3);border-top:1px solid var(--line)}
+.low{color:var(--brand);font-weight:600}
+.empty{text-align:center;padding:var(--s8) var(--s4);border:1.5px dashed var(--line);border-radius:var(--radius)}
+.empty p{margin:var(--s2) auto var(--s4)}
+.foot-site{margin-top:var(--s8);padding-block:var(--s6);border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+@media (max-width:768px){
+  .menu-btn{margin-left:auto}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--surface);padding:var(--s3) var(--s4);border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .hero{padding-top:var(--s5)}
+  .fgroup>span{flex:1 1 100%}
+}
+@media (max-width:480px){.cls .foot{flex-direction:column;align-items:stretch}.cls .foot .btn{width:100%}}
+</style>
+</head>
+<body>
+<header class="sx-head"><div class="sx-in">
+  <a class="sx-logo" href="#" data-to="65-home">▲ Summit</a>
+  <input class="sx-chk" type="checkbox" id="sx-menu" aria-hidden="true">
+  <label class="sx-burger" for="sx-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
+  <nav class="sx-links" aria-label="Main"><a href="#" data-to="65-home">Home</a><a href="#" data-to="66-the-gym">The Gym</a><a href="#" data-to="67-classes" aria-current="page">Classes</a><a href="#" data-to="68-pricing">Pricing</a><a class="sx-cta" href="#" data-to="68-pricing">Book a day pass</a></nav>
+</div></header>
+
+<main class="container">
+  <section class="hero">
+    <span class="tag brand">Learn</span>
+    <h1 class="h1" style="margin-top:var(--s3)">Classes for every grade</h1>
+    <p>From your first chalky handshake to your first lead fall. Small groups, certified coaches, shoes included.</p>
+  </section>
+
+  <section class="filters" aria-label="Filter classes">
+    <div class="fgroup" data-group="level">
+      <span>Level</span>
+      <button class="chip on" data-v="all" aria-pressed="true">All</button>
+      <button class="chip" data-v="Beginner" aria-pressed="false">Beginner</button>
+      <button class="chip" data-v="Intermediate" aria-pressed="false">Intermediate</button>
+      <button class="chip" data-v="Advanced" aria-pressed="false">Advanced</button>
+    </div>
+    <div class="fgroup" data-group="price">
+      <span>Price</span>
+      <button class="chip" data-v="u20" aria-pressed="false">Under $20</button>
+      <button class="chip" data-v="20-35" aria-pressed="false">$20-$35</button>
+      <button class="chip" data-v="35p" aria-pressed="false">$35+</button>
+    </div>
+  </section>
+
+  <p class="muted small count" id="count" aria-live="polite"></p>
+
+  <div class="grid" id="grid">
+    <article class="card cls hover" data-level="Beginner" data-price="25">
+      <div class="top"><h2 class="h3">Intro to Bouldering</h2><span class="price num">$25</span></div>
+      <div><span class="tag">Beginner</span></div>
+      <dl><dt>Duration</dt><dd>90 min</dd><dt>Schedule</dt><dd>Sat &amp; Sun, 10:00 am</dd><dt>Spots</dt><dd>6 left</dd></dl>
+      <div class="foot"><span class="small muted">Shoes &amp; chalk included</span><a class="btn sm" href="#" data-to="68-pricing">Book</a></div>
+    </article>
+    <article class="card cls hover" data-level="Intermediate" data-price="35">
+      <div class="top"><h2 class="h3">Belay Certification</h2><span class="price num">$35</span></div>
+      <div><span class="tag">Intermediate</span></div>
+      <dl><dt>Duration</dt><dd>2 hr</dd><dt>Schedule</dt><dd>Wed, 6:30 pm</dd><dt>Spots</dt><dd><span class="low">2 left</span></dd></dl>
+      <div class="foot"><span class="small muted">Required for rope walls</span><a class="btn sm" href="#" data-to="68-pricing">Book</a></div>
+    </article>
+    <article class="card cls hover" data-level="Intermediate" data-price="18">
+      <div class="top"><h2 class="h3">Technique Tuesdays</h2><span class="price num">$18</span></div>
+      <div><span class="tag">Intermediate</span></div>
+      <dl><dt>Duration</dt><dd>75 min</dd><dt>Schedule</dt><dd>Tue, 7:00 pm</dd><dt>Spots</dt><dd>9 left</dd></dl>
+      <div class="foot"><span class="small muted">Footwork, flagging, heel hooks</span><a class="btn sm" href="#" data-to="68-pricing">Book</a></div>
+    </article>
+    <article class="card cls hover" data-level="Advanced" data-price="45">
+      <div class="top"><h2 class="h3">Lead Climbing Clinic</h2><span class="price num">$45</span></div>
+      <div><span class="tag brand">Advanced</span></div>
+      <dl><dt>Duration</dt><dd>3 hr</dd><dt>Schedule</dt><dd>Sat, 1:00 pm</dd><dt>Spots</dt><dd><span class="low">3 left</span></dd></dl>
+      <div class="foot"><span class="small muted">Belay cert required</span><a class="btn sm" href="#" data-to="68-pricing">Book</a></div>
+    </article>
+    <article class="card cls hover" data-level="Beginner" data-price="22">
+      <div class="top"><h2 class="h3">Kids Climb Club</h2><span class="price num">$22</span></div>
+      <div><span class="tag">Beginner</span></div>
+      <dl><dt>Duration</dt><dd>60 min</dd><dt>Schedule</dt><dd>Thu, 4:30 pm (ages 7-12)</dd><dt>Spots</dt><dd>5 left</dd></dl>
+      <div class="foot"><span class="small muted">Parents welcome to watch</span><a class="btn sm" href="#" data-to="68-pricing">Book</a></div>
+    </article>
+    <article class="card cls hover" data-level="Beginner" data-price="15">
+      <div class="top"><h2 class="h3">Yoga for Climbers</h2><span class="price num">$15</span></div>
+      <div><span class="tag">Beginner</span></div>
+      <dl><dt>Duration</dt><dd>60 min</dd><dt>Schedule</dt><dd>Sun, 8:30 am</dd><dt>Spots</dt><dd>12 left</dd></dl>
+      <div class="foot"><span class="small muted">Hips, shoulders &amp; fingers</span><a class="btn sm" href="#" data-to="68-pricing">Book</a></div>
+    </article>
+  </div>
+
+  <div class="empty" id="empty" hidden>
+    <h2 class="h3">No classes match those filters</h2>
+    <p class="muted">Try a different level or price range, or clear the filters to see every class.</p>
+    <button class="btn ghost" id="reset" style="width:auto">Clear filters</button>
+  </div>
+
+  <footer class="foot-site row" style="justify-content:space-between">
+    <span>© Summit Climbing · Open daily 6 am-10 pm</span>
+    <a href="#" data-to="66-the-gym">Visit The Gym</a>
+  </footer>
+</main>
+
+<script>
+const sel={level:'all',price:null};
+const cards=[...document.querySelectorAll('#grid .card')];
+const ok=(c,p)=>({u20:p<20,'20-35':p>=20&&p<=35,'35p':p>35})[sel.price];
+function apply(){
+  let n=0;
+  cards.forEach(c=>{
+    const p=+c.dataset.price;
+    const show=(sel.level==='all'||c.dataset.level===sel.level)&&(!sel.price||ok(c,p));
+    c.hidden=!show;n+=show;
+  });
+  document.getElementById('empty').hidden=n>0;
+  document.getElementById('count').textContent=n+(n===1?' class':' classes');
+}
+document.querySelectorAll('.fgroup').forEach(g=>g.addEventListener('click',e=>{
+  const b=e.target.closest('.chip');if(!b)return;
+  const k=g.dataset.group,v=b.dataset.v,was=b.classList.contains('on');
+  g.querySelectorAll('.chip').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed','false')});
+  if(k==='price'&&was)sel.price=null;
+  else{b.classList.add('on');b.setAttribute('aria-pressed','true');sel[k]=v}
+  if(k==='level'&&was){sel.level='all';g.querySelector('[data-v=all]').classList.add('on')}
+  apply();
+}));
+document.getElementById('reset').onclick=()=>{
+  sel.level='all';sel.price=null;
+  document.querySelectorAll('.chip').forEach(x=>{const on=x.dataset.v==='all';x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});
+  apply();
+};
+apply();
+</script>
+</body>
+</html>

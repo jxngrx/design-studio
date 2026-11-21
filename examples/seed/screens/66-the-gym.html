@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Gym · Summit Climbing</title>
+<link rel="stylesheet" href="summit-climbing.css">
+<style>
+.ic{width:1.4rem;height:1.4rem;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:var(--s6);align-items:end;padding-bottom:var(--s6)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3)}
+.stats div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:var(--s4)}
+.stats b{display:block;font-size:1.6rem;letter-spacing:-.03em;line-height:1.1}
+section{margin-top:var(--s7)}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:var(--s4);flex-wrap:wrap;margin-bottom:var(--s5)}
+.wall{display:flex;flex-direction:column;gap:var(--s3);min-height:15rem}
+.wall{--pad:var(--s5);overflow:hidden}.wall .art{height:5.5rem;margin:calc(var(--pad)*-1) calc(var(--pad)*-1) var(--s2);border-radius:var(--radius) var(--radius) 0 0;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center}
+.wall.g .art{background:var(--accent-soft);color:var(--accent)}
+.wall .art .ic{width:2.4rem;height:2.4rem}
+.wall .meta{margin-top:auto;display:flex;gap:var(--s2);flex-wrap:wrap}
+.fac{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.fac li{list-style:none;display:flex;gap:var(--s3);align-items:flex-start;padding:var(--s4);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.fac .ic{color:var(--brand);margin-top:2px}
+.fac b{display:block}
+.coach{text-align:left}
+.coach .avatar{margin-bottom:var(--s3)}
+.cta{display:flex;justify-content:space-between;align-items:center;gap:var(--s5);flex-wrap:wrap}
+@media (max-width:1024px){.hero{grid-template-columns:1fr}.fac{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:768px){.fac{grid-template-columns:1fr}.topbar .links{display:none}section{margin-top:var(--s6)}}
+@media (max-width:480px){.stats{grid-template-columns:1fr}.cta{flex-direction:column;align-items:stretch}}
+.pg{padding-block:var(--s6) var(--s8)}
+@media (max-width:480px){.wall{--pad:var(--s4)}.stats{grid-template-columns:repeat(3,1fr)}.stats div{padding:var(--s3)}.stats b{font-size:1.15rem}.stats .small{font-size:.75rem}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></symbol>
+<symbol id="i-mtn" viewBox="0 0 24 24"><path d="M2 20l7-13 4 7 3-4 6 10z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1"/></symbol>
+<symbol id="i-rock" viewBox="0 0 24 24"><path d="M4 18l3-9 5-4 6 4 2 9z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="15" r="1"/></symbol>
+<symbol id="i-rope" viewBox="0 0 24 24"><path d="M12 2v6M8 8h8M12 8c-4 4 4 6 0 10M12 18v4"/></symbol>
+<symbol id="i-tower" viewBox="0 0 24 24"><path d="M6 21V8l6-5 6 5v13M6 14h12M10 21v-4h4v4"/></symbol>
+<symbol id="i-kid" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M6 21v-6a6 6 0 0112 0v6M9 21v-4M15 21v-4"/></symbol>
+<symbol id="i-board" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="9" cy="8" r="1"/><circle cx="15" cy="10" r="1"/><circle cx="10" cy="14" r="1"/><circle cx="15" cy="17" r="1"/></symbol>
+<symbol id="i-hang" viewBox="0 0 24 24"><path d="M3 5h18M7 5v4a2 2 0 004 0V5M13 5v4a2 2 0 004 0V5M9 14v7M15 14v7"/></symbol>
+<symbol id="i-yoga" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M4 12l8 1 8-1M12 13v4l-4 4M12 17l4 4"/></symbol>
+<symbol id="i-shower" viewBox="0 0 24 24"><path d="M5 12a7 7 0 0114 0zM8 16v2M12 16v3M16 16v2"/></symbol>
+<symbol id="i-cafe" viewBox="0 0 24 24"><path d="M4 8h13v6a5 5 0 01-5 5H9a5 5 0 01-5-5zM17 10h2a2 2 0 010 4h-2M8 3v2M12 3v2"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><path d="M12 3l3 6-3 3-3-3zM6 21l3-8h6l3 8z"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</svg>
+
+<header class="sx-head"><div class="sx-in">
+  <a class="sx-logo" href="#" data-to="65-home">▲ Summit</a>
+  <input class="sx-chk" type="checkbox" id="sx-menu" aria-hidden="true">
+  <label class="sx-burger" for="sx-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
+  <nav class="sx-links" aria-label="Main"><a href="#" data-to="65-home">Home</a><a href="#" data-to="66-the-gym" aria-current="page">The Gym</a><a href="#" data-to="67-classes">Classes</a><a href="#" data-to="68-pricing">Pricing</a><a class="sx-cta" href="#" data-to="68-pricing">Book a day pass</a></nav>
+</div></header>
+<main class="container pg">
+    <div class="hero">
+      <div class="stack">
+        <span class="tag">Discover</span>
+        <h1 class="h1">Four walls, one chalk-dusty floor.</h1>
+        <p class="muted">Summit is a 1,400 m² climbing gym built for first-timers and regulars alike. Fresh sets every Tuesday, friendly staff, and a cafe that stays open as long as the lights do.</p>
+        <div class="row">
+          <a class="btn" href="#" data-to="68-pricing">Book a day pass</a>
+          <a class="btn ghost" href="#" data-to="67-classes">See classes</a>
+        </div>
+      </div>
+      <div class="stats">
+        <div><b class="num">55+</b><span class="muted small">problems &amp; routes</span></div>
+        <div><b class="num">15 m</b><span class="muted small">tallest lead wall</span></div>
+        <div><b class="num">weekly</b><span class="muted small">route resets</span></div>
+      </div>
+    </div>
+
+    <section>
+      <div class="sec-head"><h2 class="h2">The walls</h2><span class="muted small">Pick your style, or try all four.</span></div>
+      <div class="grid cols-4">
+        <a class="card wall" href="#" data-to="67-classes">
+          <div class="art"><svg class="ic"><use href="#i-rock"/></svg></div>
+          <h3 class="h3">Boulder Cave</h3>
+          <p class="muted small">Overhanging, padded and social. Rotating problems from easy slabs to hard compression lines.</p>
+          <div class="meta"><span class="tag brand">22 problems</span><span class="tag">V0–V8</span></div>
+        </a>
+        <a class="card wall g" href="#" data-to="67-classes">
+          <div class="art"><svg class="ic"><use href="#i-rope"/></svg></div>
+          <h3 class="h3">Lead Wall</h3>
+          <p class="muted small">Sustained 15 m lines with auto-belays on the easier routes. Lead clip-ups required.</p>
+          <div class="meta"><span class="tag brand">15 m · 18 routes</span><span class="tag">5.6–5.13</span></div>
+        </a>
+        <a class="card wall" href="#" data-to="67-classes">
+          <div class="art"><svg class="ic"><use href="#i-tower"/></svg></div>
+          <h3 class="h3">Top-Rope Tower</h3>
+          <p class="muted small">Eight pre-hung ropes on a friendly slab-to-vertical face. Perfect for your first belay.</p>
+          <div class="meta"><span class="tag brand">8 ropes</span><span class="tag">5.4–5.10</span></div>
+        </a>
+        <a class="card wall g" href="#" data-to="67-classes">
+          <div class="art"><svg class="ic"><use href="#i-kid"/></svg></div>
+          <h3 class="h3">Kids Zone</h3>
+          <p class="muted small">A soft-floor play wall with colourful holds, tunnels and a mini summit. Ages 4–10.</p>
+          <div class="meta"><span class="tag brand">Ages 4–10</span><span class="tag">Supervised</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2 class="h2">Facilities</h2><span class="muted small">Everything you need between sends.</span></div>
+      <ul class="fac">
+        <li><svg class="ic"><use href="#i-board"/></svg><div><b>Training board</b><span class="muted small">Moonboard-style board, 40° angle.</span></div></li>
+        <li><svg class="ic"><use href="#i-hang"/></svg><div><b>Hangboard area</b><span class="muted small">Wall-mounted edges and pull-up bars.</span></div></li>
+        <li><svg class="ic"><use href="#i-yoga"/></svg><div><b>Yoga loft</b><span class="muted small">Mats, props and daily mobility sessions.</span></div></li>
+        <li><svg class="ic"><use href="#i-shower"/></svg><div><b>Showers &amp; lockers</b><span class="muted small">Hot showers, day lockers included.</span></div></li>
+        <li><svg class="ic"><use href="#i-cafe"/></svg><div><b>Cafe</b><span class="muted small">Espresso, toasties and post-session smoothies.</span></div></li>
+        <li><svg class="ic"><use href="#i-gear"/></svg><div><b>Gear rental</b><span class="muted small">Shoes, harness and chalk bag, $8 a set.</span></div></li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2 class="h2">Meet the coaches</h2><a class="btn ghost sm" href="#" data-to="67-classes">Browse classes</a></div>
+      <div class="grid cols-4">
+        <article class="card coach"><div class="avatar lg">MO</div><h3 class="h3">Maya Ortiz</h3><p class="muted small">Head coach · Technique &amp; lead</p><span class="tag brand" style="margin-top:var(--s3)">12 yrs</span></article>
+        <article class="card coach"><div class="avatar lg accent">DK</div><h3 class="h3">Daniel Kim</h3><p class="muted small">Bouldering &amp; strength</p><span class="tag brand" style="margin-top:var(--s3)">8 yrs</span></article>
+        <article class="card coach"><div class="avatar lg">PS</div><h3 class="h3">Priya Shah</h3><p class="muted small">Youth programme lead</p><span class="tag brand" style="margin-top:var(--s3)">6 yrs</span></article>
+        <article class="card coach"><div class="avatar lg accent">TB</div><h3 class="h3">Tom Brandt</h3><p class="muted small">Intro belay &amp; safety</p><span class="tag brand" style="margin-top:var(--s3)">10 yrs</span></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="card accent cta">
+        <div><h2 class="h2">First time? Start with a day pass.</h2><p style="opacity:.85">Includes a safety intro and shoe rental.</p></div>
+        <a class="btn" href="#" data-to="68-pricing">See pricing</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

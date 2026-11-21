@@ -1,0 +1,12 @@
+# your own projects stay local
+/screens.json
+/projects.json
+/proto.json
+/settings.json
+/variants.json
+/usage.json
+/screens/
+/refs/
+/history/
+node_modules
+.DS_Store

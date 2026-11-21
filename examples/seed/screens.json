@@ -1,0 +1,30 @@
+[
+ {
+  "id": "65-home",
+  "project": "Summit Climbing",
+  "group": "Discover",
+  "name": "Home",
+  "device": "browser"
+ },
+ {
+  "id": "66-the-gym",
+  "project": "Summit Climbing",
+  "group": "Discover",
+  "name": "The Gym",
+  "device": "browser"
+ },
+ {
+  "id": "67-classes",
+  "project": "Summit Climbing",
+  "group": "Learn",
+  "name": "Classes",
+  "device": "browser"
+ },
+ {
+  "id": "68-pricing",
+  "project": "Summit Climbing",
+  "group": "Join",
+  "name": "Pricing",
+  "device": "browser"
+ }
+]

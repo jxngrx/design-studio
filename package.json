@@ -1,0 +1,1 @@
+{"name":"design-studio","private":true,"type":"module","scripts":{"dev":"node server.mjs"}}

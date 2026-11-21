@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Summit Climbing — Pricing</title>
+<link rel="stylesheet" href="summit-climbing.css">
+<style>
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .container{display:flex;align-items:center;gap:var(--s5);min-height:var(--top-h)}
+.logo{font-weight:700;font-size:1.25rem;letter-spacing:-.03em;color:var(--brand);text-decoration:none}
+.links{display:flex;align-items:center;gap:var(--s2);margin-left:auto}
+.links a:not(.btn){padding:.5rem .9rem;border-radius:var(--radius-pill);color:var(--muted);font-weight:500;text-decoration:none}
+.links a:not(.btn):hover{color:var(--ink);background:var(--surface)}
+.links a[aria-current=page]{color:var(--brand);background:var(--brand-soft)}
+.burger{display:none;margin-left:auto;width:2.75rem;height:2.75rem;border:1.5px solid var(--ink);border-radius:var(--radius-sm);background:transparent;cursor:pointer;align-items:center;justify-content:center}
+.head{padding-block:var(--s7) var(--s5)}
+.head p{margin-top:var(--s3);color:var(--muted);font-size:1.1rem}
+.head .container{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:var(--s5)}
+.toggle{display:inline-flex;padding:var(--s1);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-pill)}
+.toggle button{min-height:2.5rem;padding:.4rem 1.1rem;border:0;border-radius:var(--radius-pill);background:transparent;color:var(--muted);font-weight:600;cursor:pointer;transition:background .15s,color .15s}
+.toggle button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.toggle .tag{margin-left:var(--s2)}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);align-items:stretch;padding-top:var(--s4)}
+.plan{display:flex;flex-direction:column;gap:var(--s4);position:relative}
+.plan .price{font-size:2.4rem;font-weight:700;letter-spacing:-.04em;line-height:1}
+.plan .price small{font-size:.9rem;font-weight:500;letter-spacing:0;color:var(--muted)}
+.plan ul{list-style:none;display:grid;gap:var(--s3);margin-top:auto;padding-top:var(--s4);border-top:1px solid var(--line)}
+.plan li{display:flex;gap:var(--s2);align-items:flex-start;font-size:.95rem}
+.plan li svg{flex:none;margin-top:.2rem;color:var(--accent)}
+.plan li.no{color:var(--muted)}.plan li.no svg{color:var(--line)}
+.plan.pop{border:2px solid var(--brand);background:var(--brand-soft);transform:translateY(-8px)}
+.plan.pop .badge{position:absolute;top:-.8rem;left:var(--s5);background:var(--brand);color:#fff;font-size:.8rem;font-weight:700;padding:.2rem .75rem;border-radius:var(--radius-pill)}
+.note{min-height:1.4em;color:var(--muted);font-size:.875rem}
+.annual-only{display:none}[data-billing=annual] .annual-only{display:inline}[data-billing=annual] .monthly-only{display:none}
+section.block{padding-block:var(--s7)}
+.table td:not(:first-child),.table th:not(:first-child){text-align:center}
+.table{min-width:38rem}
+.table td:first-child{font-weight:500}
+.table th.hl,.table td.hl{background:var(--brand-soft)}
+.yes{color:var(--accent);font-weight:700}.dash{color:var(--muted)}
+.book{display:grid;grid-template-columns:1fr 1.1fr;gap:var(--s6);align-items:start}
+.book form{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.book form .full{grid-column:1/-1}
+.sum{display:flex;justify-content:space-between;align-items:baseline;padding:var(--s3) var(--s4);background:var(--bg);border-radius:var(--radius-sm)}
+.sum b{font-size:1.4rem;letter-spacing:-.02em}
+.ok{display:none;margin-top:var(--s3)}.ok.show{display:block}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{display:flex;justify-content:space-between;gap:var(--s4);align-items:center;min-height:3.5rem;padding-block:var(--s3);font-weight:600;cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.5rem;font-weight:400;color:var(--brand);transition:transform .2s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding-bottom:var(--s4);color:var(--muted)}
+footer{background:var(--surface);border-top:1px solid var(--line);padding-block:var(--s7)}
+footer .grid{grid-template-columns:1.4fr 1fr 1fr}
+footer ul{list-style:none}footer li+li{margin-top:var(--s2)}
+footer h4{font-size:.9rem;margin-bottom:var(--s3)}
+@media (max-width:1024px){.plans{grid-template-columns:repeat(2,1fr);gap:var(--s5)}.plan.pop{transform:none}.book{grid-template-columns:1fr}footer .grid{grid-template-columns:1fr 1fr}}
+@media (max-width:768px){
+  .burger{display:inline-flex}
+  .links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:var(--s1);padding:var(--s4);background:var(--bg);border-bottom:1px solid var(--line)}
+  #nav:checked~.nav .links{display:flex}
+  .head{padding-block:var(--s6) var(--s4)}section.block{padding-block:var(--s6)}
+  footer .grid{grid-template-columns:1fr}
+}
+@media (max-width:480px){.plans{grid-template-columns:1fr}.book form{grid-template-columns:1fr}.toggle{display:flex;width:100%}.toggle button{flex:1}}
+@media (max-width:480px){.table{min-width:0;font-size:.8rem}.table th,.table td{padding:.55rem .35rem;white-space:normal;word-break:normal}.table th:first-child,.table td:first-child{width:27%;padding-left:.6rem}.table th{font-size:.72rem}}
+</style>
+</head>
+<body>
+<input type="checkbox" id="nav" hidden>
+<header class="sx-head"><div class="sx-in">
+  <a class="sx-logo" href="#" data-to="65-home">▲ Summit</a>
+  <input class="sx-chk" type="checkbox" id="sx-menu" aria-hidden="true">
+  <label class="sx-burger" for="sx-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></label>
+  <nav class="sx-links" aria-label="Main"><a href="#" data-to="65-home">Home</a><a href="#" data-to="66-the-gym">The Gym</a><a href="#" data-to="67-classes">Classes</a><a href="#" data-to="68-pricing" aria-current="page">Pricing</a><a class="sx-cta" href="#" data-to="68-pricing">Book a day pass</a></nav>
+</div></header>
+
+<main id="top" data-billing="monthly">
+<section class="head">
+  <div class="container">
+    <div>
+      <h1 class="h1">Simple prices, no gear surprises</h1>
+      <p>Shoes, chalk and a 10-minute intro come with every first visit. Pick what fits how often you climb.</p>
+    </div>
+    <div class="toggle" role="group" aria-label="Billing period">
+      <button type="button" aria-pressed="true" data-bill="monthly">Monthly</button>
+      <button type="button" aria-pressed="false" data-bill="annual">Annual <span class="tag brand">Save $158</span></button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="plans">
+      <article class="card plan">
+        <div><h2 class="h3">Day Pass</h2><p class="muted small">One visit, no commitment</p></div>
+        <div class="price num">$22 <small>/ visit</small></div>
+        <ul>
+          <li class="no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 12h12"/></svg>Gear rental +$6</li>
+          <li class="no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 12h12"/></svg>Full-price classes</li>
+          <li class="no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 12h12"/></svg>No guest passes</li>
+          <li class="no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 12h12"/></svg>Yoga drop-in $12</li>
+        </ul>
+        <a class="btn ghost" href="#book" data-to="68-pricing">Book day pass</a>
+      </article>
+
+      <article class="card plan">
+        <div><h2 class="h3">10-Visit Punch Card</h2><p class="muted small">Never expires for 12 months</p></div>
+        <div class="price num">$190 <small>/ 10 visits</small></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Gear rental at $3</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>10% off classes</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Shareable with a friend</li>
+          <li class="no"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 12h12"/></svg>Yoga drop-in $12</li>
+        </ul>
+        <a class="btn ghost" href="#" data-to="68-pricing">Buy punch card</a>
+      </article>
+
+      <article class="card plan pop">
+        <span class="badge">Most popular</span>
+        <div><h2 class="h3">Monthly Membership</h2><p class="muted small">Unlimited climbing, cancel anytime</p></div>
+        <div class="price num">$79 <small>/ month</small></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Free gear rental</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>20% off classes</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>2 guest passes a month</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Unlimited yoga</li>
+        </ul>
+        <a class="btn" href="#" data-to="68-pricing">Join monthly</a>
+      </article>
+
+      <article class="card plan">
+        <div><h2 class="h3">Annual</h2><p class="muted small">Two months free</p></div>
+        <div class="price num">$790 <small>/ year</small></div>
+        <p class="note"><span class="monthly-only">That's $65.83 a month.</span><span class="annual-only"><b style="color:var(--accent)">Best value:</b> $65.83 a month, billed once.</span></p>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Free gear rental</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>30% off classes</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>4 guest passes a month</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>Unlimited yoga</li>
+        </ul>
+        <a class="btn ghost" href="#" data-to="68-pricing">Join annually</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <h2 class="h2" style="margin-bottom:var(--s5)">Compare every perk</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Plan comparison table, scrolls horizontally">
+      <table class="table">
+        <thead><tr><th>Feature</th><th>Day Pass</th><th>Punch Card</th><th class="hl">Monthly</th><th>Annual</th></tr></thead>
+        <tbody>
+          <tr><td>Gym access</td><td>1 visit</td><td>10 visits</td><td class="hl">Unlimited</td><td>Unlimited</td></tr>
+          <tr><td>Shoe &amp; harness rental</td><td>$6</td><td>$3</td><td class="hl yes">Free</td><td class="yes">Free</td></tr>
+          <tr><td>Class discount</td><td class="dash">—</td><td>10%</td><td class="hl">20%</td><td>30%</td></tr>
+          <tr><td>Guest passes</td><td class="dash">—</td><td>Share card</td><td class="hl">2 / month</td><td>4 / month</td></tr>
+          <tr><td>Yoga access</td><td>$12 drop-in</td><td>$12 drop-in</td><td class="hl yes">Unlimited</td><td class="yes">Unlimited</td></tr>
+          <tr><td>Freeze membership</td><td class="dash">—</td><td class="dash">—</td><td class="hl">1 month / year</td><td>2 months / year</td></tr>
+          <tr><td>Price</td><td class="num">$22</td><td class="num">$190</td><td class="hl num">$79 / mo</td><td class="num">$790 / yr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="book" style="padding-top:0">
+  <div class="container">
+    <div class="book">
+      <div class="stack">
+        <h2 class="h2">Book your day pass</h2>
+        <p class="muted">Pick a date and we'll have your shoes sized and waiting. First-timers get a 10-minute intro with a coach, included.</p>
+        <p class="small muted">Open Mon–Fri 6am–10pm, Sat–Sun 8am–8pm. Free cancellation up to 2 hours before.</p>
+      </div>
+      <form class="card" id="bookform">
+        <div class="full"><label for="d">Date</label><input class="input" id="d" type="date" required></div>
+        <div><label for="n">Climbers</label><select class="input" id="n"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+        <div><label for="t">Arrival</label><select class="input" id="t"><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+        <div class="full"><label for="e">Email for confirmation</label><input class="input" id="e" type="email" placeholder="you@example.com" required></div>
+        <div class="full sum"><span class="muted">Total</span><b class="num" id="tot">$22</b></div>
+        <div class="full"><button class="btn" type="submit" style="width:100%">Book day pass</button><p class="ok small" id="ok" role="status">You're in! Check your inbox for the confirmation.</p></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="container">
+    <h2 class="h2" style="margin-bottom:var(--s5)">Good to know</h2>
+    <div class="faq" style="max-width:48rem">
+      <details open><summary>Do I need to bring my own gear?</summary><p>No. Rental shoes, harnesses and chalk are available at the desk. Members rent free; day-pass climbers pay $6.</p></details>
+      <details><summary>Can I cancel my membership?</summary><p>Monthly memberships cancel anytime with 7 days' notice. Annual plans are refundable within 14 days, then prorated for freezes.</p></details>
+      <details><summary>Is there a youth or student rate?</summary><p>Students and under-18s get $4 off any day pass and 15% off Monthly with valid ID.</p></details>
+      <details><summary>Do I need belay certification?</summary><p>For lead and top-rope walls, yes. Take our 45-minute belay test at the desk for $10, or climb bouldering and auto-belays without it.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container grid">
+    <div><a class="logo" href="#" data-to="65-home">Summit</a><p class="muted small" style="margin-top:var(--s3)">214 Quarry Street, Eastside<br>Bouldering cave · 15m lead wall · training zone</p></div>
+    <div><h4>Hours</h4><ul class="muted small"><li>Mon–Fri · 6am–10pm</li><li>Sat–Sun · 8am–8pm</li></ul></div>
+    <div><h4>Explore</h4><ul class="small"><li><a href="#" data-to="66-the-gym">The Gym</a></li><li><a href="#" data-to="67-classes">Classes</a></li><li><a href="#" data-to="68-pricing">Pricing</a></li></ul></div>
+  </div>
+</footer>
+<script>
+const m=document.querySelector('main');
+document.querySelectorAll('[data-bill]').forEach(b=>b.onclick=()=>{m.dataset.billing=b.dataset.bill;document.querySelectorAll('[data-bill]').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+const n=document.getElementById('n');n.onchange=()=>document.getElementById('tot').textContent='$'+22*n.value;
+document.getElementById('bookform').onsubmit=e=>{e.preventDefault();document.getElementById('ok').classList.add('show')};
+</script>
+</body>
+</html>
