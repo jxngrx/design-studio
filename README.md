@@ -29,6 +29,10 @@ A local AI design studio that lives inside Claude Code.
 
 Design Studio is a Figma-style canvas that runs on `localhost`. You write the idea in plain language; Claude asks the few questions that actually change the design, proposes the screens, and only then draws them. Everything is plain HTML and CSS you can open, edit, or hand to a developer. No account, no cloud, no build step.
 
+## Watch it
+
+[![Design Studio in 23 seconds](docs/demo.jpg)](docs/demo.mp4)
+
 ## Highlights
 
 | | |
